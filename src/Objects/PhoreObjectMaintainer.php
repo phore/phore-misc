@@ -41,7 +41,7 @@ trait PhoreObjectMaintainer
             $instance = new self();
             foreach ($selector as $propName => $val)
                 $instance->$propName = $val;
-            $input[] = $instance;
+            $haystack[] = $instance;
             return $instance;
         }
         if ($default instanceof \Exception)
