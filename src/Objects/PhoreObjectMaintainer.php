@@ -25,7 +25,7 @@ trait PhoreObjectMaintainer
      * @return static
      * @throws NotFoundException
      */
-    public static function maintain(array &$haystack, array $selector, bool $createIfNotFound=false, $default=null) : self
+    public static function maintain(array &$haystack, array $selector, bool $createIfNotFound=false, $default=null) : ?self
     {
         foreach ($haystack as $cur) {
             if ( ! $cur instanceof self)
