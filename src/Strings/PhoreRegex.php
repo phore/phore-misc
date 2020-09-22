@@ -12,7 +12,8 @@ class PhoreRegex
 
     public function __construct(string $regex, string $input)
     {
-
+        $this->regex = $regex;
+        $this->input = $input;
     }
 
 
@@ -65,6 +66,8 @@ class PhoreRegex
             }
             return $callback(...$params);
         }, $this->input, $limit, $count);
+        if ($out === null)
+            throw new \InvalidArgumentException("Regex-error: " . print_r (error_get_last()["message"]));
         return new PhoreString($out);
     }
 
