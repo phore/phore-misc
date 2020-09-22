@@ -46,7 +46,7 @@ trait PhoreObjectMaintainer
         }
         if ($default instanceof \Exception)
             throw $default;
-        throw new NotFoundException("Selection didn't return a result");
+        return $default;
     }
 
 }
