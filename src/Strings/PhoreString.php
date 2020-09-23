@@ -16,8 +16,11 @@ class PhoreString
         $this->str = $str;
     }
 
-    public function explode($delimiter, $limit=null) : PhoreStringArray
+    public function explode($delimiter, int $limit=null) : PhoreStringArray
     {
+        // explode will scan if the 3rd parameter is set (so null won't work)
+        if ($limit === null)
+            return new PhoreStringArray(explode($delimiter, $this->str));
         return new PhoreStringArray(explode($delimiter, $this->str, $limit));
     }
 
