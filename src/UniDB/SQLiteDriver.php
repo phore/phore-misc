@@ -56,6 +56,13 @@ class SQLiteDriver
     }
 
 
+    public function queryRaw($sql)
+    {
+        $stmt = $this->pdo->query($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function query($table, int $limit=null) : array
     {
         $sql = "SELECT * FROM " . $this->pdo->quote($table);
