@@ -14,6 +14,11 @@ class SQLiteDriver
      */
     public $pdo;
 
+    /**
+     * @var string
+     */
+    public $lastQueryRaw;
+    
     public function __construct($filename)
     {
         $this->dbFile = $filename;
@@ -40,7 +45,7 @@ class SQLiteDriver
             } catch (\PDOException $e) {
                 print_r($this->pdo->errorInfo());
                 throw $e;
-                    
+
             }
         }
     }
@@ -69,15 +74,19 @@ class SQLiteDriver
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function query($table, int $limit=null) : array
+    public function query($stmt, array $params=[]) : array
     {
-        $sql = "SELECT * FROM " . $this->pdo->quote($table);
-        if ($limit !== null)
-            $sql .= " LIMIT $limit";
+        if (!is_string($stmt) && !$stmt instanceof SqlStatement)
+            throw new \InvalidArgumentException("Parameter 1 must be string or SqlStatement");
 
-        $stmt = $this->pdo->query($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $prepare = $this->pdo->prepare($stmt->__toString());
+        if ($stmt instanceof SqlStatement) {
+            $params = $stmt->getParams();
+        }
+
+        $prepare->execute($params);
+        $this->lastQueryRaw = $prepare->queryString;
+        return $prepare->fetchAll(\PDO::FETCH_ASSOC);
 
     }
 
