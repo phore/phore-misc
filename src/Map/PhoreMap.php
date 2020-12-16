@@ -33,4 +33,9 @@ class PhoreMap
         $this->map[$key] = $value;
     }
 
+    public function has($key) : bool
+    {
+        return isset ($this->map[$key]);
+    }
+
 }
