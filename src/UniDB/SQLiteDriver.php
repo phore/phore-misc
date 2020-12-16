@@ -35,7 +35,13 @@ class SQLiteDriver
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
         ]);
         if ($createSchema && $this->schemaFile !== null) {
-            $this->pdo->exec(file_get_contents($this->schemaFile));
+            try {
+                $this->pdo->exec(file_get_contents($this->schemaFile));
+            } catch (\PDOException $e) {
+                print_r($this->pdo->errorInfo());
+                throw $e;
+                    
+            }
         }
     }
 
