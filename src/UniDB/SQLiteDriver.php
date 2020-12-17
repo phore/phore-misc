@@ -18,7 +18,7 @@ class SQLiteDriver
      * @var string
      */
     public $lastQueryRaw;
-    
+
     public function __construct($filename)
     {
         $this->dbFile = $filename;
@@ -79,15 +79,15 @@ class SQLiteDriver
         if (!is_string($stmt) && !$stmt instanceof SqlStatement)
             throw new \InvalidArgumentException("Parameter 1 must be string or SqlStatement");
 
-        $prepare = $this->pdo->prepare($stmt->__toString());
+        $pq = $this->pdo->prepare($stmt->__toString());
         if ($stmt instanceof SqlStatement) {
             $params = $stmt->getParams();
         }
 
-        $prepare->execute($params);
-        $this->lastQueryRaw = $prepare->queryString;
-        return $prepare->fetchAll(\PDO::FETCH_ASSOC);
+        $pq->execute($params);
+        $this->lastQueryRaw = $pq->queryString;
 
+        return new Result($pq);
     }
 
 
