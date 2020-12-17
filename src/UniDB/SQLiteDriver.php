@@ -74,7 +74,7 @@ class SQLiteDriver
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function query($stmt, array $params=[]) : array
+    public function query($stmt, array $params=[]) : Result
     {
         if (!is_string($stmt) && !$stmt instanceof SqlStatement)
             throw new \InvalidArgumentException("Parameter 1 must be string or SqlStatement");
