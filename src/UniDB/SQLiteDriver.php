@@ -79,7 +79,8 @@ class SQLiteDriver
         if (!is_string($stmt) && !$stmt instanceof SqlStatement)
             throw new \InvalidArgumentException("Parameter 1 must be string or SqlStatement");
 
-        $pq = $this->pdo->prepare($stmt->__toString());
+
+        $pq = $this->pdo->prepare((string)$stmt);
         if ($stmt instanceof SqlStatement) {
             $params = $stmt->getParams();
         }
