@@ -3,7 +3,7 @@
 
 namespace Phore\Misc\Strings;
 
-function declaresArray(ReflectionParameter $reflectionParameter): bool
+function declaresArray(\ReflectionParameter $reflectionParameter): bool
 {
     $reflectionType = $reflectionParameter->getType();
 
