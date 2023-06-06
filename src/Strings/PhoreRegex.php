@@ -3,7 +3,18 @@
 
 namespace Phore\Misc\Strings;
 
+function declaresArray(ReflectionParameter $reflectionParameter): bool
+{
+    $reflectionType = $reflectionParameter->getType();
 
+    if (!$reflectionType) return false;
+
+    $types = $reflectionType instanceof ReflectionUnionType
+        ? $reflectionType->getTypes()
+        : [$reflectionType];
+
+   return in_array('array', array_map(fn(ReflectionNamedType $t) => $t->getName(), $types));
+}
 class PhoreRegex
 {
 
@@ -53,7 +64,7 @@ class PhoreRegex
                 }
                 if (isset ($matches[$parameter->name])) {
                     $value = $matches[$parameter->name];
-                    if ($parameter->isArray() && !is_array($value))
+                    if (declaresArray($parameter) && !is_array($value))
                         $value = [$value];
                     $params[] = $value;
                     continue;
